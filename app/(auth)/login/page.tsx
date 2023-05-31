@@ -13,7 +13,6 @@ const Login: FunctionComponent<LoginProps> = () => {
   async function loginWithGoogle() {
     setIsLoading(true);
     try {
-      throw new Error("Not implemented");
       await signIn("google");
     } catch (err) {
       toast.error("Something went wrong. Please try again later.", {
