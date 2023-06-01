@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Icon, Icons } from "@/components/Icons";
 import Image from "next/image";
 import SignOutButton from "@/components/SignOutButton";
+import FriendRequestsSIdebarOptions from "@/components/FriendRequestsSIdebarOptions";
+import { fetchRedis } from "@/helpers/redis";
 
 interface LayoutProps {
   children: ReactNode;
@@ -30,6 +32,15 @@ const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
 
   if (!session) notFound();
+
+  // getting unseen Requestcount
+
+  const unseenRequestCount = (
+    (await fetchRedis(
+      "smembers",
+      `user:${session.user.id}:incoming_friend_requests`
+    )) as User[]
+  ).length;
 
   return (
     <div className="w-full flex h-screen">
@@ -68,9 +79,15 @@ const Layout = async ({ children }: LayoutProps) => {
                 })}
               </ul>
             </li>
+            <li>
+              <FriendRequestsSIdebarOptions
+                sessionId={session.user.id}
+                initialUnseenRequestCounts={unseenRequestCount}
+              />
+            </li>
 
-            <li className="-mx-6 mt-auto flex items-center">
-              <div className="flex flex-1 items-center gap-x-4 px-6 py-3 text-small font-semibold leading-6 text-purple-800  ">
+            <li className="-mx-6 mt-auto flex items-center ">
+              <div className="flex flex-1 items-center  gap-x-2 px-4 py-3 text-small font-semibold leading-6 text-purple-800  ">
                 <div className="relative h-8 w-8 bg-purple-50 rounded-full">
                   <Image
                     fill
@@ -88,7 +105,7 @@ const Layout = async ({ children }: LayoutProps) => {
                   </span>
                 </div>
               </div>
-              <SignOutButton className="h-full aspect-square" />
+              <SignOutButton className="h-full aspect-square hover:bg-purple-200 hover:text-pink-800" />
             </li>
           </ul>
         </nav>

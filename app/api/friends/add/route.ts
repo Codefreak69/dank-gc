@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     }
 
     // send Friend Request
-    db.sadd(`user:${idToAdd}:incoming_friend_reuqests`, session.user.id);
+    db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
     return new Response("OK");
   } catch (err) {
     if (err instanceof z.ZodError) {
