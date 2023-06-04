@@ -28,7 +28,7 @@ const Page = async () => {
   );
 
   return (
-    <main className="pt-8">
+    <main className="pt-8 mx-auto py-8 md:py-6">
       <h1 className="font-bold text-5xl mb-8 ">Friend Requests</h1>
       <div className="flex flex-col gap-4">
         <FriendRequests

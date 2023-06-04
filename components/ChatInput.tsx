@@ -20,6 +20,7 @@ const ChatInput: FunctionComponent<ChatInputProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const sendMessage = async () => {
+    if (!input) return;
     setIsLoading(true);
 
     try {
@@ -28,7 +29,6 @@ const ChatInput: FunctionComponent<ChatInputProps> = ({
         chatId,
       });
 
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       // clear input
       setInput("");
       textAreaRef.current?.focus();
