@@ -1,3 +1,4 @@
+import ChatInput from "@/components/ChatInput";
 import Messages from "@/components/Messages";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
@@ -27,6 +28,7 @@ async function getChatMessages(chatId: string) {
     const reversedDbMessages = dbMessages.reverse();
 
     const messages = messageArrayValidator.parse(reversedDbMessages);
+    return messages;
   } catch (err) {
     console.log(err);
     notFound();
@@ -80,8 +82,13 @@ const Page = async ({ params }: PageProps) => {
         </div>
       </div>
 
-      <Messages initialMessages={initialMessages} sessionId={session.user.id} />
-      <ChatInput />
+      <Messages
+        initialMessages={initialMessages}
+        sessionId={session.user.id}
+        chatPartner={chatPartner}
+        sessionImage={session.user.image}
+      />
+      <ChatInput chatPartner={chatPartner} chatId={chatId} />
     </div>
   );
 };
