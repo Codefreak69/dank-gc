@@ -10,15 +10,11 @@ import FriendRequestsSIdebarOptions from "@/components/FriendRequestsSIdebarOpti
 import { fetchRedis } from "@/helpers/redis";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import SideBarChatList from "@/components/SidebarChatList";
+import MobileChatLayout from "@/components/MobileChatLayout";
+import { SideBarOption } from "@/types/typings";
 
 interface LayoutProps {
   children: ReactNode;
-}
-interface SideBarOption {
-  id: number;
-  name: string;
-  href: string;
-  Icon: Icon;
 }
 
 const SideBarOptions: SideBarOption[] = [
@@ -48,7 +44,16 @@ const Layout = async ({ children }: LayoutProps) => {
 
   return (
     <div className="w-full flex h-screen">
-      <div className="flex h-full w-ful max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-primary text-primary-foreground px-6">
+      <div className="md:hidden ">
+        <MobileChatLayout
+          friends={friends}
+          session={session}
+          sidebarOptions={SideBarOptions}
+          unseenRequestCount={unseenRequestCount}
+        />
+      </div>
+
+      <div className="md:flex hidden h-full w-ful max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-primary text-primary-foreground px-6">
         <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
           <Icons.Logo className="h-8 w-auto text-purple-600" />
         </Link>
@@ -94,31 +99,35 @@ const Layout = async ({ children }: LayoutProps) => {
               </ul>
             </li>
 
-            <li className="-mx-6 mt-auto flex items-center ">
-              <div className="flex flex-1 items-center  gap-x-2 px-4 py-3 text-small font-semibold leading-6 text-purple-800  ">
-                <div className="relative h-8 w-8 bg-purple-50 rounded-full">
+            <li className="-ml-10 mt-auto flex items-center ">
+              <div className="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
+                <div className="relative h-8 w-8 bg-primary">
                   <Image
                     fill
                     referrerPolicy="no-referrer"
                     className="rounded-full"
                     src={session.user.image || ""}
-                    alt="profile picture"
+                    alt="Your profile picture"
                   />
                 </div>
-                <span className="sr-only">Your Profile</span>
+
+                <span className="sr-only">Your profile</span>
                 <div className="flex flex-col">
-                  <span aria-hidden="true">{session.user.name}</span>
-                  <span className="text-xs  text-purple-400" aria-hidden="true">
+                  <span aria-hidden="true" className="text-white">
+                    {session.user.name}
+                  </span>
+                  <span className="text-xs text-zinc-400" aria-hidden="true">
                     {session.user.email}
                   </span>
                 </div>
               </div>
-              <SignOutButton className="h-full aspect-square hover:bg-purple-200 hover:text-pink-800" />
+
+              <SignOutButton className="h-full aspect-square" />
             </li>
           </ul>
         </nav>
       </div>
-      {children}
+      <aside className="mt-12 w-full md:mt-0">{children}</aside>
     </div>
   );
 };
