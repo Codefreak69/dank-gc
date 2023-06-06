@@ -5,9 +5,7 @@ import { FunctionComponent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
 
-interface LoginProps {}
-
-const Login: FunctionComponent<LoginProps> = () => {
+const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function loginWithGoogle() {

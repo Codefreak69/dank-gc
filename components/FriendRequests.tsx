@@ -50,7 +50,7 @@ const FriendRequests: FunctionComponent<FriendRequestsProps> = ({
       );
       pusherClient.unbind("incoming_friend_request", friendRequestHandler);
     };
-  }, []);
+  }, [sessionId]);
 
   const router = useRouter();
 
