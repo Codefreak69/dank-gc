@@ -4,11 +4,18 @@ import { authOptions } from "@/lib/auth";
 import { chatHrefConstructor } from "@/lib/utils";
 import { Message } from "@/lib/validations/message";
 import { ChevronRight } from "lucide-react";
+import { Metadata } from "next";
 
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+// add metaData
+export const metaData: Metadata = {
+  title: "Dashboard",
+  description: "Dashboard",
+};
 
 const Dashboard = async ({}) => {
   const session = await getServerSession(authOptions);
