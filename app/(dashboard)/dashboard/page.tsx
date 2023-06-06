@@ -12,7 +12,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // add metaData
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "Dashboard",
   description: "Dashboard",
 };
